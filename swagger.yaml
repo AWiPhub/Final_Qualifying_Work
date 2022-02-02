@@ -1,0 +1,636 @@
+openapi: "3.0.0"
+info:
+  title: FinalQualifyingWork
+  description: Final qualifying work for UGRASU
+  version: "1.0.0"
+servers:
+  - url: http://127.0.0.1:8000/api/
+paths:
+  # ГОРОДА
+
+  /cities/search:
+    get:
+      tags:
+        - Cities
+      summary: Возвращает весь список городов или по фильтрам
+      parameters:
+        - name: id
+          in: query
+          description: ID города
+          required: true
+          schema:
+            type: integer
+        - name: name
+          in: query
+          description: Наименование города
+          required: true
+          schema:
+            type: string
+        - name: fullName
+          in: query
+          description: Полное наименование города
+          required: true
+          schema:
+            type: string
+        - name: year
+          in: query
+          description: Год основания города
+          required: true
+          schema:
+            type: number
+        - name: description
+          in: query
+          description: Описание
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Массив городов
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/City"
+
+  /cities/${id}:
+    get:
+      tags:
+        - Cities
+      summary: Возвращает конкретный город
+      parameters:
+        - name: id
+          in: query
+          description: ID города
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Объект города
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CityById"
+
+  /cities:
+    post:
+      tags:
+        - Cities
+      summary: Добавление города
+      parameters:
+        - name: name
+          in: query
+          description: Наименование города
+          required: true
+          schema:
+            type: string
+        - name: fullName
+          in: query
+          description: Полное наименование города
+          required: true
+          schema:
+            type: string
+        - name: year
+          in: query
+          description: Год основания города
+          required: true
+          schema:
+            type: number
+        - name: coat
+          in: query
+          description: Герб города
+          required: false
+          schema:
+            type: string
+            format: binary
+        - name: description
+          in: query
+          description: Описание
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Успешное добавление
+    put:
+      tags:
+        - Cities
+      summary: TODO -- Обновление города
+    delete:
+      tags:
+        - Cities
+      summary: Удаление городов
+      parameters:
+        - name: id
+          in: query
+          description: ID городов
+          required: true
+          schema:
+            type: array
+            items:
+              type: integer
+      responses:
+        "200":
+          description: Успешное удаление
+
+  # ДОСТОПРИМЕЧАТЕЛЬНОСТИ
+
+  /attractions/search:
+    get:
+      tags:
+        - Attractions
+      summary: Возвращает весь список достопримечательностей или по фильтрам
+      parameters:
+        - name: id
+          in: query
+          description: ID достопримечательности
+          required: true
+          schema:
+            type: integer
+        - name: name
+          in: query
+          description: Заголовок достопримечательности
+          required: true
+          schema:
+            type: string
+        - name: description
+          in: query
+          description: Описание
+          required: false
+          schema:
+            type: string
+        - name: city_id
+          in: query
+          description: ID города
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Массив достопримечательностей
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Attraction"
+
+  /attractions/${id}:
+    get:
+      tags:
+        - Attractions
+      summary: Возвращает конкретную достопримечательность
+      parameters:
+        - name: id
+          in: query
+          description: ID достопримечательности
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Объект достопримечательности
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AttractionById"
+
+  /attractions:
+    post:
+      tags:
+        - Attractions
+      summary: Добавление достопримечательности
+      parameters:
+        - name: title
+          in: query
+          description: Наименование достопримечательности
+          required: true
+          schema:
+            type: string
+        - name: description
+          in: query
+          description: Описание
+          required: true
+          schema:
+            type: string
+        - name: city_id
+          in: query
+          description: ID города
+          required: true
+          schema:
+            type: integer
+        - name: images
+          in: query
+          description: Изображения для достопримечательностей
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+              format: binary
+      responses:
+        "200":
+          description: Успешное добавление
+    put:
+      tags:
+        - Attractions
+      summary: TODO -- Обновление достопримечательности
+    delete:
+      tags:
+        - Attractions
+      summary: Удаление достопримечательностей
+      parameters:
+        - name: id
+          in: query
+          description: ID достопримечательностей
+          required: true
+          schema:
+            type: array
+            items:
+              type: integer
+      responses:
+        "200":
+          description: Успешное удаление
+
+  # НОВОСТИ
+
+  /news/search:
+    get:
+      tags:
+        - News
+      summary: Возвращает весь список новостей или по фильтрам
+      parameters:
+        - name: id
+          in: query
+          description: ID новости
+          required: true
+          schema:
+            type: integer
+        - name: title
+          in: query
+          description: Заголовок новости
+          required: true
+          schema:
+            type: string
+        - name: description
+          in: query
+          description: Описание
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Массив новостей
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/News"
+
+  /news/${id}:
+    get:
+      tags:
+        - News
+      summary: Возвращает конкретную новость
+      parameters:
+        - name: id
+          in: query
+          description: ID новости
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Объект новости
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NewsById"
+
+  /news:
+    post:
+      tags:
+        - News
+      summary: Добавление новости
+      parameters:
+        - name: title
+          in: query
+          description: Заголовок новости
+          required: true
+          schema:
+            type: string
+        - name: description
+          in: query
+          description: Описание
+          required: true
+          schema:
+            type: string
+        - name: files
+          in: query
+          description: Изображения для новости
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+              format: binary
+      responses:
+        "200":
+          description: Успешное добавление
+    put:
+      tags:
+        - News
+      summary: TODO -- Обновление новости
+    delete:
+      tags:
+        - News
+      summary: Удаление новостей
+      parameters:
+        - name: id
+          in: query
+          description: ID новостей
+          required: true
+          schema:
+            type: array
+            items:
+              type: integer
+      responses:
+        "200":
+          description: Успешное удаление
+
+  # НАЦ ПРОЕКТЫ
+
+  /projects/search:
+    get:
+      tags:
+        - Projects
+      summary: Возвращает весь список проектов или по фильтрам
+      parameters:
+        - name: id
+          in: query
+          description: ID проекта
+          required: true
+          schema:
+            type: integer
+        - name: title
+          in: query
+          description: Наименование проекта
+          required: true
+          schema:
+            type: string
+        - name: description
+          in: query
+          description: Описание
+          required: false
+          schema:
+            type: string
+        - name: coordinates
+          in: query
+          description: Координаты
+          required: false
+          schema:
+            type: string
+        - name: tags
+          in: query
+          description: Тэги
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Массив проектов
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+
+  /projects/${id}:
+    get:
+      tags:
+        - Projects
+      summary: Возвращает конкретный проект
+      parameters:
+        - name: id
+          in: query
+          description: ID новости
+          required: true
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Объект новости
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectById"
+
+  /projects:
+    post:
+      tags:
+        - Projects
+      summary: Добавление проекта
+      parameters:
+        - name: title
+          in: query
+          description: Наименование проекта
+          required: true
+          schema:
+            type: string
+        - name: description
+          in: query
+          description: Описание
+          required: true
+          schema:
+            type: string
+        - name: coordinates
+          in: query
+          description: Координаты
+          required: false
+          schema:
+            type: string
+        - name: tags
+          in: query
+          description: Тэги
+          required: false
+          schema:
+            type: string
+        - name: files
+          in: query
+          description: Изображения для проекта
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+              format: binary
+      responses:
+        "200":
+          description: Успешное добавление
+    put:
+      tags:
+        - Projects
+      summary: TODO -- Обновление проекта
+    delete:
+      tags:
+        - Projects
+      summary: Удаление проектов
+      parameters:
+        - name: id
+          in: query
+          description: ID проектов
+          required: true
+          schema:
+            type: array
+            items:
+              type: integer
+      responses:
+        "200":
+          description: Успешное удаление
+
+components:
+  schemas:
+    City:
+      properties:
+        id:
+          type: integer
+          description: ID города
+        name:
+          type: string
+          description: Наименование города
+        fullName:
+          type: string
+          description: Полное наименование города
+        year:
+          type: number
+          description: Год основания
+        coat:
+          type: boolean
+          description: Наличие герба
+        description:
+          type: string
+          description: Описание
+        attractions:
+          type: number
+          description: Количество достопримечательностей
+
+    CityById:
+      properties:
+        name:
+          type: string
+          description: Наименование города
+        fullName:
+          type: string
+          description: Полное наименование города
+        year:
+          type: number
+          description: Год основания
+        coat:
+          type: boolean
+          description: Наличие герба
+        description:
+          type: string
+          description: Описание
+        attractions:
+          type: array
+          items:
+            $ref: "#/components/schemas/AttractionForCity"
+
+    News:
+      properties:
+        id:
+          type: integer
+          description: ID новости
+        title:
+          type: string
+          description: Заголовок новости
+        firstFilePath:
+          type: string
+          description: Путь к файлу
+        created_at:
+          type: string
+          description: Время добавления
+
+    NewsById:
+      properties:
+        title:
+          type: string
+          description: Заголовок новости
+        description:
+          type: string
+          description: Описание
+        files:
+          type: array
+          items:
+            type: string
+
+    Project:
+      properties:
+        id:
+          type: integer
+          description: ID проекта
+        title:
+          type: string
+          description: Наименование проекта
+        description:
+          type: string
+          description: Описание
+        coordinates:
+          type: string
+          description: Координаты
+        tags:
+          type: string
+          description: Тэги
+        files:
+          type: array
+          items:
+            type: string
+
+    ProjectById:
+      properties:
+        title:
+          type: string
+          description: Заголовок новости
+        description:
+          type: string
+          description: Описание
+        tags:
+          type: string
+          description: Тэги
+        files:
+          type: array
+          items:
+            type: string
+
+    Attraction:
+      properties:
+        id:
+          type: integer
+          description: ID достопримечательности
+        name:
+          type: string
+          description: Наименование достопримечательности
+        description:
+          type: string
+          description: Описание
+        images:
+          type: integer
+          description: Количество изображений
+
+    AttractionById:
+      properties:
+        name:
+          type: string
+          description: Наименование достопримечательности
+        description:
+          type: string
+          description: Описание
+        images:
+          type: array
+          items:
+            type: string
+
+    AttractionForCity:
+      properties:
+        name:
+          type: string
+          description: Наименование достопримечательности
+        firstFilePath:
+          type: string
+          description: Путь к файлу
